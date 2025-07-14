@@ -5,20 +5,18 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
-from src.models.user import db
+from src.models.booking import db
 from src.routes.user import user_bp
-from src.routes.ai_chat import ai_chat_bp
-from src.routes.terminal import terminal_bp
+from src.routes.booking import booking_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
 
-# CORS 설정 (모든 도메인에서 접근 허용)
+# CORS 설정 - 프론트엔드와의 통신을 위해
 CORS(app)
 
 app.register_blueprint(user_bp, url_prefix='/api')
-app.register_blueprint(ai_chat_bp, url_prefix='/api/ai')
-app.register_blueprint(terminal_bp, url_prefix='/api/terminal')
+app.register_blueprint(booking_bp, url_prefix='/api')
 
 # uncomment if you need to use database
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
